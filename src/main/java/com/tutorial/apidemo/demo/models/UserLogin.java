@@ -12,7 +12,7 @@ public class UserLogin {
     private String password;
     private String token;
 
-    public UserLogin(){};
+    public UserLogin(){}
 
     public UserLogin(String username, String password, String token) {
         this.username = username;
