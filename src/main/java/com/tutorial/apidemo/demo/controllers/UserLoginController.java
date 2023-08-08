@@ -6,10 +6,7 @@ import com.tutorial.apidemo.demo.repositories.UserLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,14 +21,17 @@ public class UserLoginController {
         List<UserLogin> foundUserLogin = userLoginRepository.findByUsername(userLogin.getUsername());
 
         if(foundUserLogin.size() > 0) {
-            System.out.println("login successfully, token: " + foundUserLogin.get(0).getToken());
+            if(userLogin.getPassword() == null || userLogin.getPassword().isBlank() || !foundUserLogin.get(0).getPassword().equals(userLogin.getPassword().trim())){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new ResponseObject("failed", "wrong password", "")
+                );
+            }
             return ResponseEntity.status(HttpStatus.OK).body(
                     new ResponseObject("ok", "get token by login", foundUserLogin.get(0).getToken())
             );
         } else {
-            System.out.println("login failed");
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new ResponseObject("failed", "can't find userlogin", "")
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ResponseObject("failed", "wrong username", "")
             );
         }
 
