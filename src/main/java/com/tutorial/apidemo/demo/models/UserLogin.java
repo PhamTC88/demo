@@ -1,8 +1,12 @@
 package com.tutorial.apidemo.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.util.List;
 
 @Entity
 @Table(name = "UserLogin")
@@ -11,6 +15,10 @@ public class UserLogin {
     private String username;
     private String password;
     private String token;
+
+    @OneToMany(mappedBy = "userLogin")
+    @JsonIgnore
+    private List<ToDoRegistration> registrations;
 
     public UserLogin(){}
 
@@ -42,5 +50,9 @@ public class UserLogin {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public List<ToDoRegistration> getRegistrations() {
+        return registrations;
     }
 }

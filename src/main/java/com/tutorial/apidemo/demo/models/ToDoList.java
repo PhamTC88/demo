@@ -1,8 +1,12 @@
 package com.tutorial.apidemo.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.util.List;
 
 @Entity
 @Table(name = "ToDoList")
@@ -11,6 +15,10 @@ public class ToDoList {
     private String id;
     private String name;
     private boolean completed;
+
+    @OneToMany(mappedBy = "toDoList")
+    @JsonIgnore
+    private List<ToDoRegistration> registrations;
 
     public ToDoList(){}
 
@@ -42,5 +50,9 @@ public class ToDoList {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public List<ToDoRegistration> getRegistrations() {
+        return registrations;
     }
 }
