@@ -84,9 +84,10 @@ public class ProjectController {
                     new ResponseObject("failed", "Project not found.", "")
             );
         }
+        Optional<Project> deletedProject = projectRepository.findById(id);
         projectRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body(
-                new ResponseObject("ok", "Project deleted successfully.", "")
+                new ResponseObject("ok", "Project deleted successfully.", deletedProject)
         );
     }
 }
